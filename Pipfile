@@ -6,11 +6,13 @@ verify_ssl = true
 [dev-packages]
 pylint = "*"
 rope = "*"
+autopep8 = "*"
 
 [packages]
 flask = "*"
 flask-sqlalchemy = "*"
 pymysql = "*"
+requests = "*"
 
 [requires]
 python_version = "3.7"

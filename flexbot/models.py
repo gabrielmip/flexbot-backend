@@ -1,4 +1,5 @@
 from database import MyModel
+from sqlalchemy.orm import relationship
 from sqlalchemy import (
     Column, Integer, String, MetaData, ForeignKey
 )
@@ -26,6 +27,8 @@ class Trigger(MyModel):
     trigger_id = Column(Integer, primary_key=True)
     chat_id = Column(Integer, ForeignKey(Chat.chat_id), nullable=False)
     expression = Column(String(4096))
+
+    answers = relationship("Answer")
 
 class Answer(MyModel):
     __tablename__ = 'answer'
