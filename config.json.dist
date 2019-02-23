@@ -1,0 +1,5 @@
+{
+    "datasources": {
+        "main": "mysql+pymysql://user:password@host/schema"
+    }
+}
