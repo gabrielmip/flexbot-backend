@@ -1,5 +1,8 @@
 {
     "datasources": {
         "main": "mysql+pymysql://user:password@host/schema"
-    }
+    },
+    "api_key": "",
+    "telegram_url": "https://api.telegram.org/bot{}",
+    "webhook_url": "{}"
 }
