@@ -18,14 +18,14 @@ class User(MyModel):
 class Message(MyModel):
     __tablename__ = 'message'
     message_id = Column(Integer, primary_key=True)
-    chat_id = Column(Integer, ForeignKey(Chat.chat_id), nullable=False)
-    user_id = Column(Integer, ForeignKey(User.user_id), nullable=False)
+    chat_id = Column(Integer, ForeignKey(Chat.chat_id, onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
+    user_id = Column(Integer, ForeignKey(User.user_id, onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     text = Column(String(400))
 
 class Trigger(MyModel):
     __tablename__ = 'trigger'
     trigger_id = Column(Integer, primary_key=True)
-    chat_id = Column(Integer, ForeignKey(Chat.chat_id), nullable=False)
+    chat_id = Column(Integer, ForeignKey(Chat.chat_id, onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     expression = Column(String(4096))
 
     answers = relationship("Answer")
@@ -33,5 +33,5 @@ class Trigger(MyModel):
 class Answer(MyModel):
     __tablename__ = 'answer'
     answer_id = Column(Integer, primary_key=True)
-    trigger_id = Column(Integer, ForeignKey(Trigger.trigger_id), nullable=False)
+    trigger_id = Column(Integer, ForeignKey(Trigger.trigger_id, onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     text = Column(String(4096))
