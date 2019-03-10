@@ -13,7 +13,7 @@ session = scoped_session(sessionmaker(autocommit=False, bind=engine))
 class MyBase(object):
 
     def save(self):
-        session.add(self) # pylint: disable=maybe-no-member
+        session.add(self)  # pylint: disable=maybe-no-member
         self._flush()
         return self
 
@@ -23,14 +23,14 @@ class MyBase(object):
         return self.save()
 
     def delete(self):
-        session.delete(self) # pylint: disable=maybe-no-member
+        session.delete(self)  # pylint: disable=maybe-no-member
         self._flush()
 
     def _flush(self):
         try:
-            session.flush() # pylint: disable=maybe-no-member
+            session.flush()  # pylint: disable=maybe-no-member
         except DatabaseError:
-            session.rollback() # pylint: disable=maybe-no-member
+            session.rollback()  # pylint: disable=maybe-no-member
             raise
 
 

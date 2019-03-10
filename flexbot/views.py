@@ -21,11 +21,10 @@ def get_update():
     if 'message' in update and 'text' in update['message']:
         chat = update['message']['chat']
         text = update['message']['text']
-        user_id = update['message']['from']['id']
 
         persist_chat(chat)
         if is_command(update['message']):
-            process_command(text, chat['id'], user_id)
+            process_command(text, chat['id'])
         else:
             send_random_triggered_reply(text, chat['id'])
 
@@ -49,24 +48,24 @@ def is_command(message):
     if 'entities' not in message:
         return False
     else:
-        entity_types = map(lambda e: e['type'], message['entitites'])
+        entity_types = map(lambda e: e['type'], message['entities'])
         return any([etype == 'bot_command' for etype in entity_types])
 
 
-def process_command(command, chat_id, user_id):
+def process_command(command, chat_id):
     if command == '/config':
-        message = get_chat_config_message(chat_id, user_id)
+        message = get_chat_config_message(chat_id)
         send_reply(message, chat_id)
 
 
-def get_chat_config_message(chat_id, user_id):
-    token = get_chat_config_access_token(chat_id, user_id)
-    AccessToken(chat_id=chat_id, user_id=user_id, token=token).save()
+def get_chat_config_message(chat_id):
+    token = get_chat_config_access_token(chat_id)
+    AccessToken(chat_id=chat_id, token=token).save()
     url = f'{control_panel_url}/{token}'
     return f'Go to the control panel clicking [this link]({url}) and set up some cool replies!'
 
 
-def get_chat_config_access_token(chat_id, user_id):
+def get_chat_config_access_token(chat_id):
     token_length = 25
     seed = str(random.random()).encode('ascii')
     token = hashlib.sha256(seed).hexdigest()[:token_length]

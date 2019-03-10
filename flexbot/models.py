@@ -52,6 +52,4 @@ class AccessToken(MyModel):
     token = Column(String(50), primary_key=True)
     chat_id = Column(Integer, ForeignKey(
         Chat.chat_id, onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
-    user_id = Column(Integer, ForeignKey(
-        User.user_id, onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
