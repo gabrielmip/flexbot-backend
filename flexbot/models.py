@@ -49,7 +49,7 @@ class Answer(MyModel):
 
 class AccessToken(MyModel):
     __tablename__ = 'access_token'
-    token = Column(String(50))
+    token = Column(String(50), primary_key=True)
     chat_id = Column(Integer, ForeignKey(
         Chat.chat_id, onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     user_id = Column(Integer, ForeignKey(
