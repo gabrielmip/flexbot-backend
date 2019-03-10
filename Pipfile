@@ -14,6 +14,7 @@ flask = "*"
 flask-sqlalchemy = "*"
 pymysql = "*"
 requests = "*"
+uwsgi = "*"
 
 [requires]
 python_version = "3.7"
