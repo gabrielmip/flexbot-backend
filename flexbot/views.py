@@ -37,11 +37,15 @@ def persist_chat(chat: Dict):
     chat_has_migrated = (migrate_to in chat and migrate_from in chat)
     original_id = chat[migrate_from] if chat_has_migrated else chat['id']
     original_registry = Chat.query.filter(Chat.chat_id == original_id).first()
+    title = None if 'title' not in chat else chat['title']
 
     if original_registry is None:
-        Chat(title=chat['title'], chat_id=chat['id']).save()
-    elif chat_has_migrated:
-        original_registry.update(chat_id=chat[migrate_to])
+        Chat(title=title, chat_id=chat['id']).save()
+    else:
+        if chat_has_migrated:
+            original_registry.update(chat_id=chat[migrate_to])
+        if original_registry.title != title:
+            original_registry.update(title=title)
 
 
 def is_command(message):
