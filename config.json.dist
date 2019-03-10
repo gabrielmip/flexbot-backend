@@ -4,5 +4,6 @@
     },
     "api_key": "",
     "telegram_url": "https://api.telegram.org/bot{}",
-    "webhook_url": "{}"
+    "webhook_url": "{}",
+    "control_panel_url": ""
 }
