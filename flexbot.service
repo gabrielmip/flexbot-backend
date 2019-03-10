@@ -1,0 +1,12 @@
+[Unit]
+Description=Flexbot WSGI service
+
+[Service]
+User={{ user }}
+Group={{ user }}
+WorkingDirectory={{ Project root directory }}
+ExecStart={{ HOME }}/.local/bin/pipenv run uwsgi --ini wsgi.ini
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
