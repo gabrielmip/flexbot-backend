@@ -9,7 +9,7 @@ import itertools
 
 from .models import Trigger, Answer, Chat, AccessToken
 from config import webhook_url, telegram_url, config_panel_url
-from misc import flatten
+from utils.misc import flatten
 
 
 bot = Blueprint('bot', __name__)
