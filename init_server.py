@@ -1,7 +1,10 @@
 from flask import Flask, url_for
 from sqlalchemy.exc import DatabaseError
-from flexbot import flexbot
 from database import session
+
+# blueprints
+from bot import bot
+from config_panel import config_panel
 
 app = Flask(__name__)
 
@@ -23,7 +26,9 @@ def shutdown_session(exception=None):
     session.remove()
 
 
-app.register_blueprint(flexbot, url_prefix='/bot')
+app.register_blueprint(bot, url_prefix='/bot')
+app.register_blueprint(config_panel, url_prefix='/config')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
