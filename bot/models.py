@@ -42,8 +42,11 @@ class Trigger(MyModel):
 class Answer(MyModel):
     __tablename__ = 'answer'
     answer_id = Column(Integer, primary_key=True)
-    trigger_id = Column(Integer, ForeignKey(
-        Trigger.trigger_id, onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
+    trigger_id = Column(
+        Integer,
+        ForeignKey(Trigger.trigger_id, onupdate='CASCADE', ondelete='CASCADE'),
+        nullable=False
+    )
     text = Column(String(4096))
 
 
