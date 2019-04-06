@@ -2,7 +2,7 @@ import datetime
 from database import MyModel
 from sqlalchemy.orm import relationship
 from sqlalchemy import (
-    Column, Integer, String, MetaData, ForeignKey, DateTime
+    Column, Integer, String, ForeignKey, DateTime
 )
 
 
@@ -10,6 +10,7 @@ class Chat(MyModel):
     __tablename__ = 'chat'
     chat_id = Column(Integer, primary_key=True)
     title = Column(String(100))
+    triggers = relationship('Trigger')
 
 
 class User(MyModel):
@@ -35,7 +36,6 @@ class Trigger(MyModel):
     chat_id = Column(Integer, ForeignKey(
         Chat.chat_id, onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     expression = Column(String(4096))
-
     answers = relationship("Answer")
 
 
@@ -56,3 +56,11 @@ class AccessToken(MyModel):
     chat_id = Column(Integer, ForeignKey(
         Chat.chat_id, onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    chat = relationship('Chat')
+
+    @staticmethod
+    def find(received_token):
+        return (AccessToken.query
+            .join(AccessToken.chat)
+            .filter(AccessToken.token == received_token)
+            .first())

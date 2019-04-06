@@ -1,5 +1,5 @@
 import itertools
-from typing import Dict, List
+from typing import List
 
 
 def flatten(list_of_lists: List[List]):

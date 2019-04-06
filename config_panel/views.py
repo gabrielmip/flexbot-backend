@@ -1,20 +1,17 @@
-from flask import Flask, Blueprint, request, render_template
-import logging
-
-from bot.models import Trigger, Answer, Chat, AccessToken
-from config import config_panel_url
-
+from flask import Blueprint, render_template
+from bot.models import AccessToken
 
 config_panel = Blueprint('config_panel', __name__, template_folder='templates')
 
 
-@config_panel.route('/<token>', methods=['get'])
-def index(token):
-    if token is None:
+@config_panel.route('/<received_token>', methods=['get'])
+def index(received_token):
+    if received_token is None:
         return render_template('invalid_token.html')
 
-    access_token = AccessToken.query.filter(AccessToken.token == token).first()
+    access_token = AccessToken.find(received_token)
     if access_token is None:
-        return render_template('invalid_token.html')
+        return render_template('invalid_token.html'), 401
 
-    return render_template('index.html', token=token)
+    return render_template(
+        'index.html', token=received_token, chat=access_token.chat)

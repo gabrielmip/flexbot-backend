@@ -1,13 +1,11 @@
-from flask import Flask, Blueprint, request
+from flask import Blueprint, request
 from typing import Dict
 import requests
-import logging
 import random
 import hashlib
 import re
-import itertools
 
-from .models import Trigger, Answer, Chat, AccessToken
+from .models import Trigger, Chat, AccessToken
 from config import webhook_url, telegram_url, config_panel_url
 from utils.misc import flatten
 

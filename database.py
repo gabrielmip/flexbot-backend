@@ -39,5 +39,5 @@ MyModel.query = session.query_property()
 
 
 def init_db():
-    import flexbot.models
+    import bot.models
     MyModel.metadata.create_all(bind=engine)
