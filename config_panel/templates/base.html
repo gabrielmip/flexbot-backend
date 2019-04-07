@@ -1,8 +1,17 @@
 <html>
     <head>
-        <title>FlexBot - Config</title>
+        <title>Flexbot</title>
+        <link rel="stylesheet" href="{{ url_for('config_panel.static', filename='styles.css') }}">
     </head>
     <body>
-        {% block content %}{% endblock %}
+        <div class="container">
+            <div class="header">
+                <div>Flexbot</div>
+                <div>Panel</div>
+            </div>
+            <div class="content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
     </body>
 </html>

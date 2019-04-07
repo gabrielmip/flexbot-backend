@@ -1,0 +1,36 @@
+:root {
+    --background: #BCDEAE;
+    --foreground: #FFF;
+    --header: #4F3C1B;
+    --highlight: #63EDF2;
+    --container-padding: 30px;
+}
+
+body {
+    background-color: var(--background);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin: 0;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 700px;
+    background-color: #FFF;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 32px;
+    font-style: bold;
+    background-color: var(--header);
+    color: var(--foreground)
+}
+
+.header > * {
+    padding: var(--container-padding);
+}
+
+.content {
+    padding: var(--container-padding);
+}

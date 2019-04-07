@@ -13,3 +13,4 @@ datasources = config['datasources']
 telegram_url = config['telegram_url'].format(config['api_key'])
 config_panel_url = config['config_panel_url']
 webhook_url = config['webhook_url'].format(config['api_key'])
+secret_key = config['secret_key']

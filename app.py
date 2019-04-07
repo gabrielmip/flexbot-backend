@@ -1,12 +1,14 @@
-from flask import Flask, url_for
+from flask import Flask
 from sqlalchemy.exc import DatabaseError
 from database import session
+from config import secret_key
 
 # blueprints
 from bot import bot
 from config_panel import config_panel
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder=None)
+app.config['SECRET_KEY'] = secret_key
 
 
 @app.after_request

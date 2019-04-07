@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Hello, there.</h1>
+    <p>Here is your access token: {{ token }}</p>
+    <p>The chat which you are editing at this moment is: {{ chat.title }}</p>
+    <ul>
+    {% for trigger in chat.triggers %}
+        <li>
+            {{ trigger.expression }}
+            <a href="{{ url_for('config_panel.edit_trigger', trigger_id=trigger.trigger_id, token=token) }}">
+                Edit
+            </a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}
