@@ -4,6 +4,9 @@
     <h1>Hello, there.</h1>
     <p>Here is your access token: {{ token }}</p>
     <p>The chat which you are editing at this moment is: {{ chat.title }}</p>
+    <a href="{{ url_for('config_panel.edit_trigger', token=token) }}">
+        New
+    </a>
     <ul>
     {% for trigger in chat.triggers %}
         <li>

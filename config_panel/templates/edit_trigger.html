@@ -6,6 +6,7 @@
     action="{{ url_for('config_panel.edit_trigger', token=token, trigger_id=trigger_id) }}"
     method="post">
     {{ form.hidden_tag() }}
+    {{ form.chat_id() }}
     <p>
         {{ form.expression.label }}<br>
         {{ form.expression(size=32) }}
