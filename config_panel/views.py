@@ -31,7 +31,7 @@ def list_triggers():
 
 @config_panel.route('/triggers/', methods=['get', 'post'])
 @config_panel.route('/triggers/<trigger_id>', methods=['get', 'post'])
-def edit_trigger(trigger_id = None):
+def edit_trigger(trigger_id=None):
     token = request.args.get('token')
     form = EditTrigger()
     trigger = (create_new_trigger_from_token(token)
@@ -40,22 +40,38 @@ def edit_trigger(trigger_id = None):
 
     if form.validate_on_submit():
         update_trigger_from_form(trigger, form)
-        list_triggers_url = url_for('config_panel.list_triggers', token=token)
-        return redirect(list_triggers_url)
+        return redirect_to_list(token)
 
-    else:
-        joined_answers = '\n'.join([a.text.strip() for a in trigger.answers])
-        form = EditTrigger(
-            expression=trigger.expression, answers=joined_answers)
-        return render_template(
-            'edit_trigger.html', form=form, trigger_id=trigger_id, token=token)
+    joined_answers = '\n'.join([a.text.strip() for a in trigger.answers])
+    form = EditTrigger(
+        expression=trigger.expression, answers=joined_answers)
+    return render_template(
+        'edit_trigger.html', form=form, trigger_id=trigger_id, token=token)
+
+
+@config_panel.route('/triggers/<trigger_id>/delete', methods=['post'])
+def delete_trigger(trigger_id):
+    token = request.args.get('token')
+    access_token = AccessToken.find(token)
+    trigger = Trigger.query.get(trigger_id)
+
+    if trigger.chat_id != access_token.chat.chat_id:
+        return render_template('invalid_token.html'), 403
+
+    delete_trigger_answers(trigger)
+    trigger.delete()
+    return redirect_to_list(token)
+
+
+def redirect_to_list(token):
+    list_triggers_url = url_for('config_panel.list_triggers', token=token)
+    return redirect(list_triggers_url)
 
 
 def update_trigger_from_form(current_trigger, form):
     current_trigger.update(expression=form.expression.data.strip())
 
-    for answer in current_trigger.answers:
-        answer.delete()
+    delete_trigger_answers(current_trigger)
     for text in form.answers.data.splitlines():
         Answer(text=text, trigger_id=current_trigger.trigger_id).save()
 
@@ -63,3 +79,8 @@ def update_trigger_from_form(current_trigger, form):
 def create_new_trigger_from_token(token):
     access_token = AccessToken.find(token)
     return Trigger(chat_id=access_token.chat.chat_id)
+
+
+def delete_trigger_answers(trigger):
+    for answer in trigger.answers:
+        answer.delete()

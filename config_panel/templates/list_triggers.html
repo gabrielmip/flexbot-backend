@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
     <h1>Hello, there.</h1>
     <p>Here is your access token: {{ token }}</p>
     <p>The chat which you are editing at this moment is: {{ chat.title }}</p>
@@ -14,6 +15,10 @@
             <a href="{{ url_for('config_panel.edit_trigger', trigger_id=trigger.trigger_id, token=token) }}">
                 Edit
             </a>
+            <form action="{{ url_for('config_panel.delete_trigger', trigger_id=trigger.trigger_id, token=token) }}"
+                method="post">
+                <button type="submit">Delete</button>
+            </form>
         </li>
     {% endfor %}
     </ul>
