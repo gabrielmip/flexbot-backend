@@ -39,7 +39,7 @@ def edit_trigger(trigger_id=None):
 
     form = EditTrigger()
     if form.validate_on_submit():
-            update_trigger_from_form(trigger, form)
+        update_trigger_from_form(trigger, form)
         return redirect_to_list(token)
 
     joined_answers = '\n'.join([a.text.strip() for a in trigger.answers])
