@@ -63,7 +63,7 @@ def process_command(command, chat_id):
 def get_chat_config_message(chat_id):
     token = get_chat_config_access_token(chat_id)
     AccessToken(chat_id=chat_id, token=token).save()
-    url = f'{config_panel_url}/{token}'
+    url = f'{config_panel_url}/?token={token}'
     return f'Go to the configuration panel by clicking [this link]({url}).'
 
 
