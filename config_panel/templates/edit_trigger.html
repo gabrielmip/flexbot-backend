@@ -1,26 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Edit trigger</h1>
 <form 
     action="{{ url_for('config_panel.edit_trigger', token=token, trigger_id=trigger_id) }}"
-    method="post">
+    method="post"
+    class="edit-trigger">
     {{ form.hidden_tag() }}
     {{ form.chat_id() }}
-    <p>
-        {{ form.expression.label }}<br>
+    <div>
+        {{ form.expression.label }}
         {{ form.expression(size=32) }}
         {% for error in form.expression.errors %}
         <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
-    </p>
-    <p>
-        {{ form.answers.label }}<br>
+    </div>
+    <div>
+        {{ form.answers.label }}
         {{ form.answers(size=32) }}
         {% for error in form.answers.errors %}
         <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
-    </p>
-    <p>{{ form.submit() }}</p>
+    </div>
+    <div>
+        {{ form.submit() }}
+        <a href="{{ url_for('config_panel.list_triggers', token=token) }}"
+            class="action-buttons">
+            <button>Nevermind</button>
+        </a>
+    </div>
 </form>
 {% endblock %}

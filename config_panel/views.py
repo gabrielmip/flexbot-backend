@@ -33,13 +33,13 @@ def list_triggers():
 @config_panel.route('/triggers/<trigger_id>', methods=['get', 'post'])
 def edit_trigger(trigger_id=None):
     token = request.args.get('token')
-    form = EditTrigger()
     trigger = (create_new_trigger_from_token(token)
         if trigger_id is None
         else Trigger.query.get(trigger_id))
 
+    form = EditTrigger()
     if form.validate_on_submit():
-        update_trigger_from_form(trigger, form)
+            update_trigger_from_form(trigger, form)
         return redirect_to_list(token)
 
     joined_answers = '\n'.join([a.text.strip() for a in trigger.answers])

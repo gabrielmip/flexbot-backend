@@ -5,7 +5,7 @@ from wtforms import (
 
 
 class EditTrigger(FlaskForm):
-    expression = StringField('Trigger', validators=[DataRequired()])
-    answers = TextAreaField('Answers', validators=[DataRequired()])
-    chat_id = HiddenField('chat_id')
-    submit = SubmitField('Save')
+    expression = StringField(label='When someone says...', validators=[DataRequired()])
+    answers = TextAreaField(label='The bot says...', validators=[DataRequired()])
+    chat_id = HiddenField(label='chat_id')
+    submit = SubmitField(label='Save')

@@ -7,8 +7,7 @@
 }
 
 body {
-    background-color: var(--background);
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Courier New', Courier, monospace;
     margin: 0;
 }
 
@@ -33,4 +32,79 @@ body {
 
 .content {
     padding: var(--container-padding);
+}
+
+mark {
+    background-color: var(--highlight);
+}
+
+.link-lookalike {
+    background: none !important;
+    border: none; 
+    padding: 0 !important;
+    font: inherit;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.trigger-items {
+    display: flex;
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+}
+
+.trigger-items > .action-buttons {
+    margin-left: 15px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.trigger-items ul {
+    list-style: none;
+}
+
+.trigger-items .trigger-expressions {
+    flex: 1;
+}
+
+@media (max-width: 600px) {
+
+    .content {
+        padding: 15px;
+    }
+
+    .trigger-items {
+        display: block;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .trigger-items > .action-buttons {
+        margin: 0 5px 0 0;
+        display: inline-block;
+    }
+}
+
+.edit-trigger > * {
+    margin-bottom: 20px;
+}
+
+.edit-trigger textarea,
+.edit-trigger input:not([type='submit']) {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.edit-trigger textarea {
+    height: 200px;
+}
+
+button,
+input[type='submit'] {
+    padding: 5px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.edit-trigger label {
+    font-size: 20px;
 }
