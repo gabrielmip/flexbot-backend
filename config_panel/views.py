@@ -17,9 +17,8 @@ config_panel = Blueprint(
     static_folder='static')
 
 
-@config_panel.route('/')
-def list_triggers():
-    received_token = request.args.get('token')
+@config_panel.route('/<received_token>')
+def get_chat_associated_to_token(received_token):
     if received_token is None:
         return "Invalid token", 401
 
