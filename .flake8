@@ -1,0 +1,4 @@
+[flake8]
+ignore =
+    E128, # line break
+    E501, # line too long

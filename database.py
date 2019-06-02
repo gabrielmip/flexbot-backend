@@ -1,8 +1,7 @@
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.exc import DatabaseError
-from sqlalchemy.ext.declarative import declarative_base, DeclarativeMeta
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
-import json
 
 from config import datasources
 

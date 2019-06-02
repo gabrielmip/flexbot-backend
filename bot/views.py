@@ -5,7 +5,7 @@ import random
 import hashlib
 import re
 
-from models import Trigger, Chat, AccessToken
+from models import TriggerGroup, Chat, AccessToken
 from config import webhook_url, telegram_url, config_panel_url
 from utils.misc import flatten
 

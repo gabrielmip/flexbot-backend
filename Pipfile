@@ -8,6 +8,7 @@ pylint = "*"
 rope = "*"
 autopep8 = "*"
 pep8 = "*"
+flake8 = "*"
 
 [packages]
 flask = "*"

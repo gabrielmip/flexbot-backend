@@ -1,13 +1,9 @@
 from flask import (
     Blueprint,
-    render_template,
     jsonify,
-    json,
-    request,
-    redirect,
-    url_for)
+    request
+)
 from models import AccessToken, TriggerGroup, Trigger, Answer
-from .forms.edit_trigger import EditTrigger
 
 
 config_panel = Blueprint(
@@ -40,13 +36,16 @@ def edit_trigger_group(trigger_group_id=None):
 
     if trigger_group is None:
         return "Not found", 404
-    
+
     if trigger_group.chat_id != access_token.chat_id:
         return "Forbidden", 403
 
     group_attrs = request.get_json()
-    trigger_group.update(ignore_case=group_attrs['ignore_case'], ignore_repeated_letters=group_attrs['ignore_repeated_letters'])
     update_trigger_group_attrs(trigger_group, group_attrs['answers'], group_attrs['triggers'])
+    trigger_group.update(
+        ignore_case=group_attrs['ignore_case'],
+        ignore_repeated_letters=group_attrs['ignore_repeated_letters']
+    )
 
     return "saved"
 
@@ -65,7 +64,7 @@ def delete_trigger_group(trigger_group_id):
 
     if trigger_group.chat_id != access_token.chat_id:
         return "Forbidden", 403
-    
+
     delete_answers(trigger_group)
     delete_triggers(trigger_group)
     trigger_group.delete()
@@ -81,21 +80,26 @@ def update_trigger_group_attrs(trigger_group, updated_answers, updated_triggers)
 def update_answers(trigger_group, new_answers):
     delete_answers(trigger_group)
     for new_answer in new_answers:
-        Answer(text=new_answer['text'], trigger_group_id=trigger_group.trigger_group_id).save()
+        Answer(
+            text=new_answer['text'],
+            trigger_group_id=trigger_group.trigger_group_id
+        ).save()
 
 
 def delete_answers(trigger_group):
     for current_answer in trigger_group.answers:
         current_answer.delete()
 
-    
+
 def update_triggers(trigger_group, new_triggers):
     delete_triggers(trigger_group)
     for new_trigger in new_triggers:
-        Trigger(expression=new_trigger['expression'], trigger_group_id=trigger_group.trigger_group_id).save()
+        Trigger(
+            expression=new_trigger['expression'],
+            trigger_group_id=trigger_group.trigger_group_id
+        ).save()
 
 
 def delete_triggers(trigger_group):
     for current_trigger in trigger_group.triggers:
         current_trigger.delete()
-    
