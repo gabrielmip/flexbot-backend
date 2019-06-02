@@ -5,7 +5,7 @@ import random
 import hashlib
 import re
 
-from .models import Trigger, Chat, AccessToken
+from models import Trigger, Chat, AccessToken
 from config import webhook_url, telegram_url, config_panel_url
 from utils.misc import flatten
 
@@ -81,15 +81,21 @@ def send_random_triggered_reply(text, chat_id):
 
 
 def get_triggered_replies(text, chat_id):
-    chat_triggers = Trigger.query\
-        .filter(Trigger.chat_id == chat_id)\
+    chat_trigger_groups = TriggerGroup.query\
+        .filter(TriggerGroup.chat_id == chat_id)\
         .all()
     answers_from_triggered = (
-        (a.text for a in trigger.answers)
-        for trigger in chat_triggers
-        if re.search(trigger.expression, text) is not None
+        (a.text for a in group.answers)
+        for group in get_triggered_groups(chat_trigger_groups, text)
     )
     return list(flatten(answers_from_triggered))
+
+
+def get_triggered_groups(chat_trigger_groups, text):
+    return [
+        group for group in chat_trigger_groups
+        if any([re.search(trigger.expression, text) for trigger in group.triggers])
+    ]
 
 
 def send_reply(reply, chat_id):

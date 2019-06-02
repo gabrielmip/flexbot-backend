@@ -1,10 +1,12 @@
 from flask import (
     Blueprint,
     render_template,
+    jsonify,
+    json,
     request,
     redirect,
     url_for)
-from bot.models import AccessToken, Trigger, Answer
+from models import AccessToken, TriggerGroup, Trigger, Answer
 from .forms.edit_trigger import EditTrigger
 
 
@@ -19,14 +21,13 @@ config_panel = Blueprint(
 def list_triggers():
     received_token = request.args.get('token')
     if received_token is None:
-        return render_template('invalid_token.html')
+        return "Invalid token", 401
 
     access_token = AccessToken.find(received_token)
     if access_token is None:
-        return render_template('invalid_token.html'), 401
+        return "Invalid token", 401
 
-    return render_template(
-        'list_triggers.html', token=received_token, chat=access_token.chat)
+    return jsonify(access_token.chat.to_dict())
 
 
 @config_panel.route('/triggers/', methods=['get', 'post'])

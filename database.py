@@ -1,7 +1,8 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect
 from sqlalchemy.exc import DatabaseError
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.ext.declarative import declarative_base, DeclarativeMeta
 from sqlalchemy.orm import scoped_session, sessionmaker
+import json
 
 from config import datasources
 
@@ -33,11 +34,33 @@ class MyBase(object):
             session.rollback()  # pylint: disable=maybe-no-member
             raise
 
+    def to_dict(self):
+        return {
+            **convert_instance_to_dict(self),
+            **convert_relationships_to_dict(self)
+        }
+
+
+def convert_instance_to_dict(instance):
+    columns = instance.__table__.columns.keys()
+    return {column: getattr(instance, column) for column in columns}
+
+
+def convert_relationships_to_dict(instance):
+    relationship_fields = inspect(instance.__class__).relationships.keys()
+    return {
+        field: [
+            related_entity.to_dict()
+            for related_entity in getattr(instance, field)
+        ]
+        for field in relationship_fields
+    }
+
 
 MyModel = declarative_base(cls=MyBase)
 MyModel.query = session.query_property()
 
 
 def init_db():
-    import bot.models
+    import models
     MyModel.metadata.create_all(bind=engine)
