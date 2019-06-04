@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from sqlalchemy.exc import DatabaseError
 from database import session
 from config import secret_key
@@ -7,9 +8,9 @@ from config import secret_key
 from bot import bot
 from config_panel import config_panel
 
-
 app = Flask(__name__, static_folder=None)
 app.config['SECRET_KEY'] = secret_key
+CORS(app)
 
 
 @app.after_request
