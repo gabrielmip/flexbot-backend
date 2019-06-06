@@ -33,6 +33,7 @@ def edit_trigger_group(trigger_group_id=None):
     trigger_group = (TriggerGroup(chat_id=access_token.chat_id)
         if trigger_group_id is None
         else TriggerGroup.query.get(trigger_group_id))
+    trigger_group.save()
 
     if trigger_group is None:
         return "Not found", 404
@@ -47,7 +48,10 @@ def edit_trigger_group(trigger_group_id=None):
         ignore_repeated_letters=group_attrs['ignore_repeated_letters']
     )
 
-    return "saved"
+    return jsonify({
+        "saved": True,
+        "trigger_group_id": trigger_group.trigger_group_id
+    })
 
 
 @config_panel.route('/trigger_groups/<trigger_group_id>', methods=['delete'])
@@ -69,7 +73,7 @@ def delete_trigger_group(trigger_group_id):
     delete_triggers(trigger_group)
     trigger_group.delete()
 
-    return "deleted"
+    return jsonify({ "deleted": True })
 
 
 def update_trigger_group_attrs(trigger_group, updated_answers, updated_triggers):
@@ -89,6 +93,7 @@ def update_answers(trigger_group, new_answers):
 def delete_answers(trigger_group):
     for current_answer in trigger_group.answers:
         current_answer.delete()
+    trigger_group.answers = []
 
 
 def update_triggers(trigger_group, new_triggers):
@@ -103,3 +108,4 @@ def update_triggers(trigger_group, new_triggers):
 def delete_triggers(trigger_group):
     for current_trigger in trigger_group.triggers:
         current_trigger.delete()
+    trigger_group.triggers = []
