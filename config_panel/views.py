@@ -42,11 +42,11 @@ def edit_trigger_group(trigger_group_id=None):
         return "Forbidden", 403
 
     group_attrs = request.get_json()
-    update_trigger_group_attrs(trigger_group, group_attrs['answers'], group_attrs['triggers'])
     trigger_group.update(
         ignore_case=group_attrs['ignore_case'],
         ignore_repeated_letters=group_attrs['ignore_repeated_letters']
     )
+    update_trigger_group_attrs(trigger_group, group_attrs['answers'], group_attrs['triggers'])
 
     return jsonify({
         "saved": True,
