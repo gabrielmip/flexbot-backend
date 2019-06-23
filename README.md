@@ -8,5 +8,4 @@ This repo contains the Telegram's webhook handler and the API used by the config
 - Python 3.7 + Pipenv
 - Flask
 - SQLAlchemy
-- uWSGI
 - MySQL
